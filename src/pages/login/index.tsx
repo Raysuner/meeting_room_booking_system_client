@@ -18,9 +18,9 @@ export default function Login() {
 
   const onFinish = async (value: ILoginParams) => {
     try {
-      const res = await login(value);
-      localStorage.setItem("accessToken", res.accessToken);
-      localStorage.setItem("refreshToken", res.refreshToken);
+      const { data } = await login(value);
+      localStorage.setItem("accessToken", data.accessToken);
+      localStorage.setItem("refreshToken", data.refreshToken);
       message.success("登录成功");
       navigate("/");
     } catch (error) {
