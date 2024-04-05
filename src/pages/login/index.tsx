@@ -1,6 +1,8 @@
 import "./index.less";
 import { Form, Input, Button, message } from "antd";
 import { login } from "../../api";
+import { useNavigate } from "react-router-dom";
+import { ILoginParams } from "../../types";
 
 const layout1 = {
   labelCol: { span: 4 },
@@ -12,11 +14,21 @@ const layout2 = {
 };
 
 export default function Login() {
-  const onFinish = async (value: any) => {
-    const res = await login(value);
-    localStorage.setItem("accessToken", res.data.data.accessToken);
-    localStorage.setItem("refreshToken", res.data.data.refreshToken);
-    location.href = "/";
+  const navigate = useNavigate();
+
+  const onFinish = async (value: ILoginParams) => {
+    try {
+      const res = await login(value);
+      localStorage.setItem("accessToken", res.accessToken);
+      localStorage.setItem("refreshToken", res.refreshToken);
+      message.success("登录成功");
+      navigate("/");
+    } catch (error) {
+      if (typeof error === "string") {
+        message.error(error);
+      }
+      console.error(error);
+    }
   };
 
   return (

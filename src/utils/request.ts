@@ -13,4 +13,14 @@ const request = axios.create({
 //   (error) => Promise.reject(error)
 // );
 
+request.interceptors.response.use(
+  (res) => {
+    return res;
+  },
+  (error) => {
+    const msg = error.response.data;
+    return Promise.reject(msg);
+  }
+);
+
 export default request;
