@@ -1,6 +1,6 @@
 import "./index.less";
-import axios from "axios";
-import { Form, Input, Button } from "antd";
+import { Form, Input, Button, message } from "antd";
+import { login } from "../../api";
 
 const layout1 = {
   labelCol: { span: 4 },
@@ -12,8 +12,11 @@ const layout2 = {
 };
 
 export default function Login() {
-  const onFinish = (value) => {
-    console.log(value);
+  const onFinish = async (value: any) => {
+    const res = await login(value);
+    localStorage.setItem("accessToken", res.data.data.accessToken);
+    localStorage.setItem("refreshToken", res.data.data.refreshToken);
+    location.href = "/";
   };
 
   return (
