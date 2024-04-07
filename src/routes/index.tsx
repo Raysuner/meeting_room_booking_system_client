@@ -3,11 +3,16 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import UpdatePassword from "../pages/UpdatePassword";
 import Home from "../pages/Home";
+import User from "../pages/User";
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Home />,
+  },
+  {
+    path: "/user",
+    element: <User />,
   },
   {
     path: "/login",
