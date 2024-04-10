@@ -63,7 +63,7 @@ export default function Login() {
                 <a href="/register">创建账号</a>
               </div>
               <div className="link">
-                <a href="/update_password">忘记密码</a>
+                <a href="/update-password">忘记密码</a>
               </div>
             </div>
           </Form.Item>
