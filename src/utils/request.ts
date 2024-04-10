@@ -29,22 +29,24 @@ request.interceptors.response.use(
   },
   async (error) => {
     const { data, config } = error.response;
-    if (data.code === 10011 && !config.url.includes("/user/refreshToken")) {
-      const res = await refreshToken();
-      if (res.success) {
-        localStorage.setItem("accessToken", res.data.accessToken);
-        localStorage.setItem("refreshToken", res.data.refreshToken);
-        return request({
-          method: config.method,
-          url: config.url,
-          params: config.data,
-          data: config.data,
-        });
+    if (data.code === 10011) {
+      if (!config.url.includes("/user/refreshToken")) {
+        const res = await refreshToken();
+        if (res.success) {
+          localStorage.setItem("accessToken", res.data.accessToken);
+          localStorage.setItem("refreshToken", res.data.refreshToken);
+          return request({
+            method: config.method,
+            url: config.url,
+            params: config.data,
+            data: config.data,
+          });
+        }
       } else {
-        message.error("登录态失效，请重新登录");
+        message.error("登录态失效,将跳转到登录页,请重新登录");
         setTimeout(() => {
           location.href = "/login";
-        });
+        }, 2500);
       }
     }
     return Promise.reject(data);
