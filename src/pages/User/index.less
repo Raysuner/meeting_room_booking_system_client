@@ -3,12 +3,21 @@
   .user-page {
     width: 1200px;
     min-height: 600px;
-    background-color: #fff;
     border-radius: 8px;
     padding: 20px;
     margin: 0 auto;
-    display: flex;
-    .side-bar {
+    .header {
+      padding: 12px 20px;
+      background-color: #fff;
+      border-radius: 8px;
+    }
+    .body {
+      background-color: #fff;
+      border-radius: 8px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       .avatar {
         img {
           display: block;
@@ -17,9 +26,8 @@
           border-radius: 100%;
         }
       }
-    }
-    .content {
       .user-form {
+        width: 500px;
         margin-top: 20px;
       }
     }

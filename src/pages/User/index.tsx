@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import "./index.less";
-import { Button, Form, Input } from "antd";
-import { getUserInfo } from "../../api";
+import { Button, Form, Input, message } from "antd";
+import { getUserInfo, updateUserInfo } from "../../api";
+import ImageUpload from "../ImageUpload";
 
 const layout1 = {
   labelCol: { span: 4 },
@@ -15,14 +16,16 @@ const layout2 = {
 export default function User() {
   const [form] = Form.useForm();
 
-  const onFinish = (value) => {
-    console.log(value);
+  const onFinish = async (value) => {
+    await updateUserInfo(value);
+    message.success("更新成功");
   };
 
   useEffect(() => {
     const fetcher = async () => {
       const res = await getUserInfo();
       form.setFieldsValue(res.data);
+      console.log(res.data);
     };
     fetcher();
   }, []);
@@ -30,19 +33,22 @@ export default function User() {
   return (
     <div className="user-page-wrapper">
       <div className="user-page">
-        <h2>个人信息</h2>
-        <aside className="side-bar">
-          <div className="avatar">
-            <img src="#" alt="" />
-          </div>
-        </aside>
-        <section className="content">
+        <h2 className="header">个人信息</h2>
+        <section className="body">
+          <div className="avatar"></div>
           <Form
             {...layout1}
             className="user-form"
             form={form}
             onFinish={onFinish}
           >
+            <Form.Item
+              label="头像"
+              name="avatar"
+              getValueFromEvent={(val) => `http://localhost:3000/${val.path}`}
+            >
+              <ImageUpload />
+            </Form.Item>
             <Form.Item label="用户名" name="username">
               <Input disabled />
             </Form.Item>
@@ -53,8 +59,8 @@ export default function User() {
               <Input />
             </Form.Item>
             <Form.Item {...layout2}>
-              <Button type="primary" htmlType="submit">
-                提交
+              <Button block type="primary" htmlType="submit">
+                确认
               </Button>
             </Form.Item>
           </Form>
